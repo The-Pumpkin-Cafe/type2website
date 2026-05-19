@@ -1,0 +1,713 @@
+<html lang="en">
+<!-- Website made by Sodium <3 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TYPE II</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --bg-base: #060608;
+            --bg-panel: #0d0d11;
+            --bg-panel-header: #121217;
+            --amber: #FF9100;
+            --amber-dim: rgba(255, 145, 0, 0.2);
+            --amber-glow: rgba(255, 145, 0, 0.05);
+            --border-dim: rgba(255, 255, 255, 0.06);
+            --text-high: #f1f5f9;
+            --text-mid: #94a3b8;
+            --text-low: #475569;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-high);
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            background-image:
+                    linear-gradient(var(--border-dim) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--border-dim) 1px, transparent 1px);
+            background-size: 40px 40px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            animation: bodyFadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes bodyFadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Subtle Sweep Line Boot Effect */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--amber), transparent);
+            opacity: 0;
+            z-index: 200;
+            pointer-events: none;
+            animation: scanSweep 1s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
+            animation-delay: 0.1s;
+        }
+
+        @keyframes scanSweep {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Tactical HUD borders */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        header {
+            border-bottom: 1px solid var(--border-dim);
+            background-color: rgba(13, 13, 17, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem 3%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            transform: translateY(-10px);
+            opacity: 0;
+            animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes slideDown {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--text-high);
+            letter-spacing: 4px;
+            position: relative;
+        }
+
+        .brand-logo::after {
+            content: " II";
+            color: var(--amber);
+        }
+
+        .system-meta {
+            font-size: 0.75rem;
+            color: var(--text-low);
+            letter-spacing: 1px;
+            line-height: 1.4;
+            border-left: 1px solid var(--border-dim);
+            padding-left: 20px;
+        }
+
+        .system-meta span {
+            color: var(--text-mid);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-link {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-mid);
+            text-decoration: none;
+            padding: 6px 14px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            border-color: var(--amber-dim);
+            color: var(--amber);
+            background-color: var(--amber-glow);
+        }
+
+        main {
+            padding: 3rem 3%;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 2.5rem;
+            flex-grow: 1;
+        }
+
+        .panel {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-dim);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: panelBoot 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .panel.left-panel {
+            animation-delay: 0.4s;
+        }
+
+        .panel.right-panel {
+            animation-delay: 0.55s;
+        }
+
+        @keyframes panelBoot {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tactical corner marks */
+        .panel::before {
+            content: "";
+            position: absolute;
+            top: -1px; left: -1px; width: 8px; height: 8px;
+            border-top: 2px solid var(--amber);
+            border-left: 2px solid var(--amber);
+        }
+
+        .panel::after {
+            content: "";
+            position: absolute;
+            bottom: -1px; right: -1px; width: 8px; height: 8px;
+            border-bottom: 2px solid var(--amber);
+            border-right: 2px solid var(--amber);
+        }
+
+        .panel-header {
+            background-color: var(--bg-panel-header);
+            border-bottom: 1px solid var(--border-dim);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-high);
+            font-weight: 700;
+        }
+
+        .panel-tag {
+            font-size: 0.7rem;
+            color: var(--amber);
+            background-color: var(--amber-dim);
+            padding: 2px 8px;
+            font-weight: bold;
+        }
+
+        .panel-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            flex-grow: 1;
+        }
+
+        /* Hero Content */
+        .project-hero {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .project-title-heavy {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            line-height: 0.95;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--text-high);
+            letter-spacing: -1px;
+        }
+
+        .project-title-heavy span {
+            color: var(--amber);
+        }
+
+        .project-desc {
+            color: var(--text-mid);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Features List */
+        .feature-bullets {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 0.5rem 0;
+        }
+
+        .bullet {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .bullet-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: var(--amber);
+            border: 1px solid var(--amber-dim);
+            padding: 2px 6px;
+            margin-top: 2px;
+        }
+
+        .bullet-text {
+            color: var(--text-high);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .bullet-text strong {
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Platforms Bar */
+        .platform-strip {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border-dim);
+            padding: 10px 16px;
+            font-size: 0.8rem;
+        }
+
+        .platform-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .platform-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--amber);
+        }
+
+        .platform-name {
+            color: var(--text-high);
+            font-weight: bold;
+        }
+
+        /* Clean Vector Interactive Buttons */
+        .button-deck {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: auto;
+        }
+
+        .t2-btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--bg-base);
+            background-color: var(--amber);
+            border: 1px solid var(--amber);
+            padding: 16px;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+            position: relative;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .t2-btn:hover {
+            background-color: var(--text-high);
+            border-color: var(--text-high);
+            color: var(--bg-base);
+        }
+
+        .t2-btn.outline {
+            background-color: transparent;
+            color: var(--text-high);
+            border: 1px solid var(--border-dim);
+        }
+
+        .t2-btn.outline:hover {
+            border-color: var(--amber);
+            color: var(--amber);
+            background-color: var(--amber-glow);
+        }
+
+        /* --- INTERACTIVE TELEMETRY SELECTOR --- */
+        .selector-menu {
+            display: flex;
+            border-bottom: 1px solid var(--border-dim);
+        }
+
+        .selector-tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: var(--text-low);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .selector-tab.active {
+            color: var(--amber);
+            border-bottom-color: var(--amber);
+            background-color: rgba(255, 145, 0, 0.02);
+        }
+
+        .selector-tab:hover:not(.active) {
+            color: var(--text-mid);
+        }
+
+        .telemetry-display {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            flex-grow: 1;
+            justify-content: flex-start;
+        }
+
+        .lore-entry {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: all 0.25s ease;
+        }
+
+        .lore-entry:hover {
+            background-color: rgba(255, 145, 0, 0.02);
+            border-color: var(--amber-dim);
+        }
+
+        .lore-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lore-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--amber);
+            letter-spacing: 1px;
+        }
+
+        .lore-meta {
+            font-size: 0.7rem;
+            color: var(--text-low);
+        }
+
+        .lore-text {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-mid);
+        }
+
+        footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border-dim);
+            background-color: var(--bg-panel);
+            padding: 1.5rem 3%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--text-low);
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .header-left {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .system-meta {
+                border-left: none;
+                padding-left: 0;
+            }
+            .button-deck {
+                grid-template-columns: 1fr;
+            }
+            .project-title-heavy {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <div class="brand-logo">TYPE</div>
+        <div class="system-meta">
+            HOST_NODE: <span>type2.thepumpkincafe.org</span><br>
+            DATABASE: <span>type2.miraheze.org</span>
+        </div>
+    </div>
+    <div class="nav-links">
+        <a href="https://type2.miraheze.org" class="nav-link" target="_blank">WIKI_DB</a>
+        <a href="https://github.com" class="nav-link" target="_blank">GITHUB_SRC</a>
+    </div>
+</header>
+
+<main>
+    <div class="panel left-panel">
+        <div class="panel-header">
+            <span class="panel-title">Information</span>
+            <span class="panel-tag">ONLINE</span>
+        </div>
+        <div class="panel-body">
+            <div class="project-hero">
+                <h1 class="project-title-heavy">PROJECT_<span>TYPE II</span></h1>
+                <p class="project-desc">
+                    An immersive, open world game set in a dystopian future where you and everything you know is owned by The Zenith. Navigate across stellar systems, form alliances with other corporations and rise up against The Zenith's plans to destroy your home planet to fuel it's warfare.
+                </p>
+            </div>
+
+            <!-- Game Pillars tailored to the real game lore -->
+            <div class="feature-bullets">
+                <div class="bullet">
+                    <span class="bullet-tag">01</span>
+                    <div class="bullet-text">
+                        <strong>Contested Regions:</strong> Lay claim to operations across the massive Primigenius region, the distant Praevalidus territories, or the fucking massive Neutral Zone.
+                    </div>
+                </div>
+                <div class="bullet">
+                    <span class="bullet-tag">02</span>
+                    <div class="bullet-text">
+                        <strong>Corporate Affiliations:</strong> Interface with heavy-industry powers such as The Zenith Corporation, The Terra Coalition, and Red Meridian destroy the Zenith swarm.
+                    </div>
+                </div>
+                <div class="bullet">
+                    <span class="bullet-tag">03</span>
+                    <div class="bullet-text">
+                        <strong>Orbital & Celestial Operations:</strong> Trade at key logistics arrays like the Venus Orbital Station or the Standard Weight Trading Center.
+                    </div>
+                </div>
+            </div>
+
+            <div class="platform-strip">
+                <div class="platform-item">
+                    <span class="platform-dot"></span>
+                    <span class="platform-name">Linux</span>
+                </div>
+                <div class="platform-item">
+                    <span class="platform-dot"></span>
+                    <span class="platform-name">Windows</span>
+                </div>
+                <div class="platform-item">
+                    <span class="platform-dot"></span>
+                    <span class="platform-name">macOS</span>
+                </div>
+                <div class="platform-item">
+                    <span class="platform-dot"></span>
+                    <span class="platform-name">FreeBSD</span>
+                </div>
+            </div>
+
+            <div class="button-deck">
+                <a href="https://type2.miraheze.org" class="t2-btn">THE LIBRARY</a>
+                <a href="https://github.com" class="t2-btn outline" target="_blank">GO TO GITHUB</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATABASE BROWSER PANEL -->
+    <div class="panel right-panel">
+        <div class="panel-header">
+            <span class="panel-title">Database Browser</span>
+            <span class="panel-tag">INTELLIGENCE</span>
+        </div>
+        <div class="selector-menu">
+            <button class="selector-tab active" onclick="switchTab('regions')">Regions</button>
+            <button class="selector-tab" onclick="switchTab('corporations')">Corporations</button>
+            <button class="selector-tab" onclick="switchTab('stations')">Stations & Wiki</button>
+        </div>
+        <div class="panel-body">
+            <div id="tab-content" class="telemetry-display">
+                <!-- Dynamic Telemetry Rows -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div>SECURE LINK ESTABLISHED // TYPE II TELEMETRY REALIGNED</div>
+    <div style="font-family: 'Orbitron', sans-serif;">DB_REVISION_2.5.0</div>
+</footer>
+
+<script>
+    // Immersive database categories populated directly with the official game files
+    const databaseData = {
+        regions: [
+            {
+                title: "PRIMIGENIUS REGION",
+                meta: "SIZE: LARGE // SYSTEMS: SOLAR, ALPHA CENTAURI",
+                desc: "An active, heavily populated territory. Dominated by the stellar operations of The Terra Coalition inside the Sol system and The Zenith Corporation across the Proxima planetary nodes."
+            },
+            {
+                title: "PRAEVALIDUS REGION",
+                meta: "SIZE: LARGE // SYSTEMS: BERNARD'S STAR",
+                desc: "A wide frontier zone surrounding Bernard's Star. Zenith installations maintain strict surveillance across celestial targets Bernard's Star B, C, D, and E."
+            },
+            {
+                title: "THE NEUTRAL ZONE",
+                meta: "SIZE: GIGANTIC // SYSTEMS: NONE",
+                desc: "A massive, unaligned buffer zone. Void of traditional solar systems but anchored securely by independent trade outposts and neutral commerce coalitions."
+            }
+        ],
+        corporations: [
+            {
+                title: "THE ZENITH CORPORATION",
+                meta: "REACH: ALPHA CENTAURI (INTERSTELLAR)",
+                desc: "Primary governing power across the Primigenius and Praevalidus sectors. Operators of the massive Proxima Orbital Space Station."
+            },
+            {
+                title: "THE TERRA COALITION",
+                meta: "REACH: SOLAR (INTRASTELLAR)",
+                desc: "Consolidated governing body coordinating planetary trade, security, and industrial transport networks throughout the Sol system."
+            },
+            {
+                title: "FOUNDRY-7",
+                meta: "REACH: SOLAR (INTRASTELLAR)",
+                desc: "Leading developer of heavy orbital machinery, structural components, and high-tensile material manufacturing systems."
+            },
+            {
+                title: "GREY MARGIN LOGISTICS",
+                meta: "REACH: ALPHA CENTAURI (INTERSTELLAR)",
+                desc: "A sprawling freight network managing long-haul supply runs, interstellar cargo pathways, and deep-space transport corridors."
+            }
+        ],
+        stations: [
+            {
+                title: "STANDARD WEIGHT TRADING CENTER",
+                meta: "REGION: NEUTRAL ZONE // FACTION: S.W.T.C.O.",
+                desc: "A gigantic, independent commercial outpost situated far from faction borders. Serves as the primary marketplace for non-aligned crews."
+            },
+            {
+                title: "AETHEREAL STATIC VENUS ORBITAL",
+                meta: "REGION: PRIMIGENIUS // FACTION: AETHEREAL STATIC",
+                desc: "A mid-sized industrial refinery and transit platform charting cloud-top atmospheric collections above Venus."
+            },
+            {
+                title: "TYPE II OFFICIAL WIKI DATABASE",
+                meta: "ENDPOINT: TYPE2.MIRAHEZE.ORG",
+                desc: "Explore comprehensive corporate rosters, celestial charts, ship registries, and community guides directly on our public portal."
+            }
+        ]
+    };
+
+    function switchTab(tabName) {
+        // Manage Active Button States
+        const tabs = document.querySelectorAll('.selector-tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+
+        // Find active button element
+        const activeTabButton = Array.from(tabs).find(tab => tab.getAttribute('onclick').includes(tabName));
+        if (activeTabButton) {
+            activeTabButton.classList.add('active');
+        }
+
+        // Re-render Telemetry Database
+        const container = document.getElementById('tab-content');
+        container.innerHTML = '';
+
+        const selectedData = databaseData[tabName];
+        selectedData.forEach(item => {
+            const entry = document.createElement('div');
+            entry.className = 'lore-entry';
+
+            const header = document.createElement('div');
+            header.className = 'lore-header';
+
+            const title = document.createElement('span');
+            title.className = 'lore-title';
+            title.textContent = item.title;
+
+            const meta = document.createElement('span');
+            meta.className = 'lore-meta';
+            meta.textContent = item.meta;
+
+            const desc = document.createElement('p');
+            desc.className = 'lore-text';
+            desc.textContent = item.desc;
+
+            header.appendChild(title);
+            header.appendChild(meta);
+            entry.appendChild(header);
+            entry.appendChild(desc);
+            container.appendChild(entry);
+        });
+    }
+
+    // Initialize display with 'regions' configuration on load
+    window.onload = () => {
+        switchTab('regions');
+    };
+</script>
+</body>
+</html>
